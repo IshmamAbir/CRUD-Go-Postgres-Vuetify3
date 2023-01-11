@@ -11,15 +11,11 @@ import (
 	"gorm.io/gorm"
 
 	// module name is 'backend'. check go.mod for your package module name
+	"backend/models"
 	_Util "backend/util"
 )
 
-type User struct {
-	Id        string `json:"id"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-}
+type User models.User
 
 var db *gorm.DB
 var err error
@@ -83,7 +79,6 @@ func dbInit() {
 		log.Panic(err)
 	}
 
-	// check previous commit to see the process o taking db properties from this file ( from const properties)
 	dbString := "host= " + dbConfig["host"] + " user= " + dbConfig["username"] + " password= " + dbConfig["password"] + " dbname= " + dbConfig["database"] + " port= " + dbConfig["port"] + " sslmode = disable"
 
 	db, err = gorm.Open(postgres.Open(dbString), &gorm.Config{})
