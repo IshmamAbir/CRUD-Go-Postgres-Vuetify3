@@ -9,14 +9,9 @@ import (
 	"github.com/gorilla/mux"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-)
 
-const (
-	host     = "localhost"
-	port     = "5433"
-	username = "postgres"
-	password = "postgres"
-	database = "democrud"
+	// module name is 'backend'. check go.mod for your package module name
+	_Util "backend/util"
 )
 
 type User struct {
@@ -43,7 +38,6 @@ func main() {
 }
 
 func routers() {
-
 	router := mux.NewRouter()
 	router.HandleFunc("/users", GetAllUsers).Methods("GET")
 	router.HandleFunc("/users", CreateUser).Methods("POST")
@@ -83,7 +77,14 @@ func (c *CORSRouterDecorator) ServeHTTP(rw http.ResponseWriter,
 
 // This is to checking the connection is ok with the database and then connect with the database
 func dbInit() {
-	dbString := "host= " + host + " user= " + username + " password= " + password + " dbname= " + database + " port= " + port + " sslmode = disable"
+	// Getting db config values from db.config files by processing the file through readConfig method in config_util.go
+	dbConfig, err := _Util.ReadConfig("./configs/db.config")
+	if err != nil {
+		log.Panic(err)
+	}
+
+	// check previous commit to see the process o taking db properties from this file ( from const properties)
+	dbString := "host= " + dbConfig["host"] + " user= " + dbConfig["username"] + " password= " + dbConfig["password"] + " dbname= " + dbConfig["database"] + " port= " + dbConfig["port"] + " sslmode = disable"
 
 	db, err = gorm.Open(postgres.Open(dbString), &gorm.Config{})
 	if err != nil {
@@ -119,7 +120,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&user)
 	db.Create(&user)
 	json.NewEncoder(w).Encode(user)
-
 }
 
 // Check If a User Exists
@@ -176,5 +176,4 @@ func DeleteUer(w http.ResponseWriter, r *http.Request) {
 	var user User
 	db.Delete(&user, userId)
 	json.NewEncoder(w).Encode("Product Deleted Successfully")
-
 }
