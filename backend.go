@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,13 +11,15 @@ import (
 
 	// module name is 'backend'. check go.mod for your package module name
 	"backend/models"
+	_UserHandler "backend/user/delivery/http"
+	_Userrepo "backend/user/repository"
+	_UserUsecase "backend/user/usecase"
 	_Util "backend/util"
 )
 
 type User models.User
 
 var db *gorm.DB
-var err error
 
 func main() {
 	fmt.Println("Running")
@@ -28,18 +29,11 @@ func main() {
 	// I used gorm for database connection
 	dbInit()
 
-	// step 2: Set the routing url path with their method type and methods definition
-	// I used mux routing for the url path declaration
-	routers()
-}
-
-func routers() {
 	router := mux.NewRouter()
-	router.HandleFunc("/users", GetAllUsers).Methods("GET")
-	router.HandleFunc("/users", CreateUser).Methods("POST")
-	router.HandleFunc("/users/{id}", GetUserById).Methods("GET")
-	router.HandleFunc("/users/{id}", UpdateUser).Methods("PUT")
-	router.HandleFunc("/users/{id}", DeleteUer).Methods("DELETE")
+
+	userRepo := _Userrepo.NewPsqlUserRepository(db)
+	userUsecase := _UserUsecase.NewUserUsecase(userRepo)
+	_UserHandler.NewUserHandler(router, userUsecase)
 
 	http.ListenAndServe(":9080", &CORSRouterDecorator{router})
 
@@ -65,7 +59,6 @@ func (c *CORSRouterDecorator) ServeHTTP(rw http.ResponseWriter,
 	if req.Method == "OPTIONS" {
 		return
 	}
-
 	c.R.ServeHTTP(rw, req)
 }
 
@@ -94,81 +87,3 @@ func dbInit() {
 // 	db.AutoMigrate(User{})
 // 	log.Println("Database Migration Completed...")
 // }
-
-//-----------------------------------------------------------------------------
-
-// Get All Users
-func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	var users []User
-	db.Find(&users)
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(users)
-
-	fmt.Println(users)
-}
-
-// Create a New User
-func CreateUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
-	var user User
-	json.NewDecoder(r.Body).Decode(&user)
-	db.Create(&user)
-	json.NewEncoder(w).Encode(user)
-}
-
-// Check If a User Exists
-func CheckUserExist(userId string) bool {
-	var user User
-	db.First(&user, userId)
-	if user.Id == "" {
-		return false
-	}
-	return true
-}
-
-// Get an User by an User Id
-func GetUserById(w http.ResponseWriter, r *http.Request) {
-	userId := mux.Vars(r)["id"] // "id" would be in json format that we set in User struct
-
-	if CheckUserExist(userId) == false {
-		json.NewEncoder(w).Encode("User Not Found!")
-		return
-	}
-
-	var user User
-
-	db.First(&user, userId)
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
-}
-
-// Update The Existing User's Data
-func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	userId := mux.Vars(r)["id"] // "id" would be in json format that we set in User struct
-	if CheckUserExist(userId) == false {
-		json.NewEncoder(w).Encode("User Not Found")
-		return
-	}
-
-	var user User
-	db.First(&user, userId)
-	json.NewDecoder(r.Body).Decode(&user)
-	db.Save(&user)
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
-}
-
-// Delete an User
-func DeleteUer(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	userId := mux.Vars(r)["id"] // "id" would be in json format that we set in User struct
-	if CheckUserExist(userId) == false {
-		json.NewEncoder(w).Encode("User Not Found")
-		return
-	}
-
-	var user User
-	db.Delete(&user, userId)
-	json.NewEncoder(w).Encode("Product Deleted Successfully")
-}
