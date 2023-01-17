@@ -1,4 +1,6 @@
-## v2:パッケージシステムフォルダアーキテクチャ (クリーンアーキテクチャに準拠) 
+## [v1: CRUD 操作の基本システム (初級レベル)](/tree/v1)
+
+## [v2:パッケージシステムフォルダアーキテクチャ (クリーンアーキテクチャに準拠)](/tree/v2) 
 
 <br>
 
@@ -39,3 +41,9 @@
    で動作するアプリ。
    
    [http://localhost:8080/](http//localhost:8080/)  
+
+## 使用した`のLibrary
+
+1. Gorm ( gorm.io/gorm)
+2. Gorilla Mux (github.com/gorilla/mux)
+3.  Postgres (gorm.io/driver/postgres)

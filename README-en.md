@@ -1,4 +1,6 @@
-## v2: Package System folder architecture (following Clean Architecture) 
+## [v1: basic system of a crud operation (begineer level)](/tree/v1)
+
+## [v2: Package System folder architecture (following Clean Architecture)](/tree/v2) 
 <br>
 
 ## Startup procedure
@@ -37,3 +39,10 @@
    (When npm run serve completes the build, the following URL is displayed.)  
    App running at:
    [http://localhost:8080/](http//localhost:8080/)  
+
+
+## Library Used
+
+1. Gorm ( gorm.io/gorm)
+2. Gorilla Mux (github.com/gorilla/mux)
+3.  Postgres (gorm.io/driver/postgres)
