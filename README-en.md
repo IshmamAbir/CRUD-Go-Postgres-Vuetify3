@@ -1,8 +1,9 @@
 ## v2: Package System folder architecture (following Clean Architecture) 
 <br>
+
 ## Startup procedure
 
-1. Create a '`democrud`' database in postgres.
+1. Create a '```democrud```' database in postgres.
 
 1. In Visual Studio Code, open the project. 
 

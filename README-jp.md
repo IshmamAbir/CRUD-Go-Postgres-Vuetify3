@@ -4,7 +4,7 @@
 
 ## スタートアップの手順
 
-1.postgres に 'democrud`' データベースを作成する。
+1.postgres に '```democrud```' データベースを作成する。
 
 1.Visual Studio Codeで、プロジェクトを開きます。 
 
