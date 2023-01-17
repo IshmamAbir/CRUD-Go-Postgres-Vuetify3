@@ -1,7 +1,10 @@
+## This is the basic system of a crud operation (begineer level) v1
+### Check v2 branch for Package System folder architecture using Clean Architecture
+<br>
 
 ## Startup procedure
 
-
+1. Create a '`democrud`' database in postgres.
 1. In Visual Studio Code, open the project. 
 
 
