@@ -46,3 +46,26 @@
 1. Gorm ( gorm.io/gorm)
 2. Gorilla Mux (github.com/gorilla/mux)
 3.  Postgres (gorm.io/driver/postgres)
+
+
+# Swagger Implemented here
+swagger url ```http://localhost:9080/swagger/index.html```
+
+## Swagger Library
+1. Swaggo ("github.com/swaggo/http-swagger")
+
+## Running Process
+1. download swag for go
+```go get -u github.com/swaggo/http-swagger```
+
+1. run swag in the root directory of the project
+```swag init ```
+
+1. if main method file name is not main.go, then run ```swag init -g [main method file name. e.g: backend.go]``` 
+
+1. download `http-swagger` using this command 
+```go get -u github.com/swaggo/http-swagger```
+
+1. Import the http-swagger in your main file
+   ```import "github.com/swaggo/http-swagger" ```
+1. After defining any method with the swagger annotation, run the command of [2 or 3] every time.

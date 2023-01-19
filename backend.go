@@ -15,12 +15,30 @@ import (
 	_Userrepo "backend/user/repository"
 	_UserUsecase "backend/user/usecase"
 	_Util "backend/util"
+
+	_ "backend/docs"
+
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type User models.User
 
 var db *gorm.DB
 
+// @title           crud application swagger
+// @version         1.0
+// @description     sample crud application using vuetift 3, go lang, postgres
+// @termsofservice  http://swagger.io/terms/
+
+// @contact.name   ishmam abir
+// @contact.url    https://github.com/ishmamabir
+// @contact.email  ishmam.cse@gmail.com
+
+// @license.name  apache 2.0
+// @license.url   http://www.apache.org/licenses/license-2.0.html
+
+// @host      localhost:9080
+// @basepath  /
 func main() {
 	fmt.Println("Running")
 	fmt.Println("--------------------------")
@@ -34,6 +52,10 @@ func main() {
 	userRepo := _Userrepo.NewPsqlUserRepository(db)
 	userUsecase := _UserUsecase.NewUserUsecase(userRepo)
 	_UserHandler.NewUserHandler(router, userUsecase)
+
+	// define swagger ui path and define file path
+	// http://localhost:9080/swagger/index.html Swagger can be found in this link
+	router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler).Methods(http.MethodGet)
 
 	http.ListenAndServe(":9080", &CORSRouterDecorator{router})
 
