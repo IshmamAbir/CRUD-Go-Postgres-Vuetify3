@@ -3,6 +3,8 @@ package usecase
 import (
 	"backend/models"
 	"backend/user"
+
+	"github.com/google/uuid"
 )
 
 type userUsecase struct {
@@ -25,7 +27,7 @@ func (uu *userUsecase) GetAllUsers() ([]models.User, error) {
 }
 
 // GetUserById implements user.Usecase
-func (uu *userUsecase) GetUserById(id int) (*models.User, error) {
+func (uu *userUsecase) GetUserById(id uuid.UUID) (*models.User, error) {
 	user, err := uu.userRepo.GetUserById(id)
 	if err != nil {
 		return nil, err
@@ -34,7 +36,7 @@ func (uu *userUsecase) GetUserById(id int) (*models.User, error) {
 }
 
 // UpdateUser implements user.Usecase
-func (uu *userUsecase) UpdateUser(id int, user *models.User) error {
+func (uu *userUsecase) UpdateUser(id uuid.UUID, user *models.User) error {
 	savedUser, err := uu.userRepo.GetUserById(id)
 	if err != nil {
 		return err
@@ -53,6 +55,7 @@ func (uu *userUsecase) UpdateUser(id int, user *models.User) error {
 
 // SaveUser implements user.Usecase
 func (uu *userUsecase) SaveUser(user *models.User) error {
+	user.Id = uuid.New()
 	err := uu.userRepo.SaveUser(user)
 	return err
 }
@@ -63,7 +66,7 @@ func (*userUsecase) CountAllUsers(map[string]interface{}) (int64, error) {
 }
 
 // DeleteUer implements user.Usecase
-func (uu *userUsecase) DeleteUer(id int) error {
+func (uu *userUsecase) DeleteUer(id uuid.UUID) error {
 	user, err := uu.GetUserById(id)
 	if err != nil {
 		return err
