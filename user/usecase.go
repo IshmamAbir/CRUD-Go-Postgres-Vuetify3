@@ -1,18 +1,22 @@
 package user
 
-import "backend/models"
+import (
+	"backend/models"
+
+	"github.com/google/uuid"
+)
 
 // usecase interface
 type Usecase interface {
 	GetAllUsers() ([]models.User, error)
 
-	GetUserById(id int) (*models.User, error)
+	GetUserById(id uuid.UUID) (*models.User, error)
 
 	CountAllUsers(map[string]interface{}) (int64, error)
 
 	SaveUser(user *models.User) error
 
-	UpdateUser(id int, user *models.User) error
+	UpdateUser(id uuid.UUID, user *models.User) error
 
-	DeleteUer(id int) error
+	DeleteUer(id uuid.UUID) error
 }

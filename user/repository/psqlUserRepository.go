@@ -3,6 +3,7 @@ package repository
 import (
 	"errors"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"backend/models"
@@ -33,10 +34,10 @@ func (repo *psqlUserRepository) GetAllUsers() ([]models.User, error) {
 }
 
 // GetUserById implements user.Repository
-func (repo *psqlUserRepository) GetUserById(id int) (*models.User, error) {
+func (repo *psqlUserRepository) GetUserById(id uuid.UUID) (*models.User, error) {
 	var user models.User
 	repo.DB.First(&user, id)
-	if user.Id == 0 {
+	if user.Id == uuid.Nil {
 		return nil, errors.New("user not found")
 	}
 	return &user, nil

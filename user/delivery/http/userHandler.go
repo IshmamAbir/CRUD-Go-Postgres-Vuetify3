@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"strconv"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -68,9 +68,8 @@ func (h *userHandler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	// taking route values from the current request
 	vars := mux.Vars(r)
-	// strconv is a package for  converting values between strings and numeric types
-	// converting route values to int
-	userId, err := strconv.Atoi(vars["id"])
+	// taking uuid from the route path variable
+	userId, err := uuid.Parse(vars["id"])
 	if err != nil {
 		json.NewEncoder(w).Encode("Error parsing Id")
 		return
@@ -121,7 +120,7 @@ func (h *userHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 func (h userHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "Application/json")
 	vars := mux.Vars(r)
-	userId, err := strconv.Atoi(vars["id"])
+	userId, err := uuid.Parse(vars["id"])
 	if err != nil {
 		json.NewEncoder(w).Encode("Error parsing Id")
 		return
@@ -150,7 +149,7 @@ func (h userHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 func (h userHandler) deleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "Application/json")
 	vars := mux.Vars(r)
-	userId, err := strconv.Atoi(vars["id"])
+	userId, err := uuid.Parse(vars["id"])
 	if err != nil {
 		json.NewEncoder(w).Encode("Error parsing Id")
 		return
