@@ -1,12 +1,16 @@
 package user
 
-import "backend/models"
+import (
+	"backend/models"
+
+	"github.com/google/uuid"
+)
 
 // repository interface
 type Repository interface {
 	GetAllUsers() ([]models.User, error)
 
-	GetUserById(id int) (*models.User, error)
+	GetUserById(id uuid.UUID) (*models.User, error)
 
 	CountAllUsers(map[string]interface{}) (int64, error)
 
