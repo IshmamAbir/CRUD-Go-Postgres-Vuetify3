@@ -28,6 +28,7 @@ func main() {
 	//step 1: First initialize the database connection.
 	// I used gorm for database connection
 	dbInit()
+	dbMigrate()
 
 	router := mux.NewRouter()
 
@@ -81,9 +82,12 @@ func dbInit() {
 	fmt.Println("Connection Successful")
 }
 
-// It’s kinda important to make sure that the Entities in concern exist as tables in the connected database.
-// This particular method ensures that a table named products is created on the connected database.
-// func dbMigrate() {
-// 	db.AutoMigrate(User{})
-// 	log.Println("Database Migration Completed...")
-// }
+// It’s kinda important to make sure that the Models exist as tables in the connected database.
+// This particular method ensures that a table named users and companies are created on the connected database.
+func dbMigrate() {
+	err := db.AutoMigrate(&User{}, &models.Company{}) // add all model struct here to create database automatically
+	if err != nil {
+		log.Panic(err)
+	}
+	log.Println("Database Migration Completed...")
+}
