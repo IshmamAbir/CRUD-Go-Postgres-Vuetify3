@@ -10,6 +10,9 @@ import (
 	"gorm.io/gorm"
 
 	// module name is 'backend'. check go.mod for your package module name
+	_CompanyHandler "backend/company/delivery/http"
+	_CompanyRepo "backend/company/repository"
+	_CompanyUsecase "backend/company/usecase"
 	"backend/models"
 	_UserHandler "backend/user/delivery/http"
 	_Userrepo "backend/user/repository"
@@ -35,6 +38,10 @@ func main() {
 	userRepo := _Userrepo.NewPsqlUserRepository(db)
 	userUsecase := _UserUsecase.NewUserUsecase(userRepo)
 	_UserHandler.NewUserHandler(router, userUsecase)
+
+	companyRepo := _CompanyRepo.NewPsqlCompanyRepository(db)
+	companyUsecase := _CompanyUsecase.NewCompanyUsecase(companyRepo)
+	_CompanyHandler.NewCompanyHandler(router, companyUsecase)
 
 	http.ListenAndServe(":9080", &CORSRouterDecorator{router})
 
