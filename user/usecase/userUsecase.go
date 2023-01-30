@@ -44,6 +44,7 @@ func (uu *userUsecase) UpdateUser(id uuid.UUID, user *models.User) error {
 	savedUser.FirstName = user.FirstName
 	savedUser.LastName = user.LastName
 	savedUser.Email = user.Email
+	savedUser.CompanyId = user.CompanyId
 
 	savedErr := uu.userRepo.UpdateUser(savedUser)
 	if savedErr != nil {

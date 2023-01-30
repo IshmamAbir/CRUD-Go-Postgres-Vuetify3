@@ -26,7 +26,7 @@ func NewPsqlUserRepository(db *gorm.DB) user.Repository {
 // GetAllUsers implements user.Repository
 func (repo *psqlUserRepository) GetAllUsers() ([]models.User, error) {
 	var users []models.User
-	repo.DB.Find(&users)
+	repo.DB.Model(&models.User{}).Preload("Company").Find(&users)
 	if users == nil {
 		return nil, errors.New("no user found")
 	}
@@ -36,7 +36,7 @@ func (repo *psqlUserRepository) GetAllUsers() ([]models.User, error) {
 // GetUserById implements user.Repository
 func (repo *psqlUserRepository) GetUserById(id uuid.UUID) (*models.User, error) {
 	var user models.User
-	repo.DB.First(&user, id)
+	repo.DB.Model(&models.User{}).Preload("Company").First(&user, id)
 	if user.Id == uuid.Nil {
 		return nil, errors.New("user not found")
 	}
