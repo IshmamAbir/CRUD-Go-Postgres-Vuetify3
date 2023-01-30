@@ -31,6 +31,14 @@ func NewUserHandler(router *mux.Router, uu user.Usecase) {
 //----------------------------------------------------------------------------------------
 
 // Get All Users method
+// @Summary User List
+// @Description get User List
+// @Tags User
+// @Accept */*
+// @Produce  json
+// @Success 200 {object} models.User
+// @Produce  json
+// @Router /users [get]
 func (h *userHandler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	users, err := h.UserUsecase.GetAllUsers()
@@ -46,6 +54,16 @@ func (h *userHandler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 // Get user by Id
+// @Summary Get By Id
+// @Description get User By Id
+// @Tags User
+// @Accept */*
+// @Request
+// @Produce  json
+// @Param id path string true "user_id"
+// @Success 200 {object} models.User
+// @Produce  json
+// @Router /users/{id} [get]
 func (h *userHandler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	// taking route values from the current request
@@ -65,6 +83,14 @@ func (h *userHandler) GetUserById(w http.ResponseWriter, r *http.Request) {
 }
 
 // create user
+// @Tags User
+// @Summary Create User
+// @Description Takes CreateUser Request
+// @Accept */*
+// @Param Body body models.User true "create User"
+// @Produce json
+// @Success 200 {object} models.User
+// @Router /users [post]
 func (h *userHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "Application/json")
 	user := models.User{}
@@ -82,6 +108,15 @@ func (h *userHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // update user
+// @Tags User
+// @Summary Update User
+// @Description Update User Request
+// @Accept */*
+// @Param id path int true "id"
+// @Param Body body models.User true "Update User"
+// @Produce json
+// @Success 200 {object} models.User
+// @Router /users/{id} [put]
 func (h userHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "Application/json")
 	vars := mux.Vars(r)
@@ -104,6 +139,13 @@ func (h userHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // delete user
+// @Tags User
+// @Summary Create User
+// @Description Takes CreateUser Request
+// @Accept */*
+// @Param id path string true "Id"
+// @Produce json
+// @Router /users/{id} [delete]
 func (h userHandler) deleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "Application/json")
 	vars := mux.Vars(r)

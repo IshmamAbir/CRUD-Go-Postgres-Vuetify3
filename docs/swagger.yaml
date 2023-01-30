@@ -1,0 +1,129 @@
+basePath: /
+definitions:
+  models.User:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+    type: object
+host: localhost:9080
+info:
+  contact:
+    email: ishmam.cse@gmail.com
+    name: ishmam abir
+    url: https://github.com/ishmamabir
+  description: sample crud application using vuetift 3, go lang, postgres
+  license:
+    name: apache 2.0
+    url: http://www.apache.org/licenses/license-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: crud application swagger
+  version: "1.0"
+paths:
+  /users:
+    get:
+      consumes:
+      - '*/*'
+      description: get User List
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: User List
+      tags:
+      - User
+    post:
+      consumes:
+      - '*/*'
+      description: Takes CreateUser Request
+      parameters:
+      - description: create User
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create User
+      tags:
+      - User
+  /users/{id}:
+    delete:
+      consumes:
+      - '*/*'
+      description: Takes CreateUser Request
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Create User
+      tags:
+      - User
+    get:
+      consumes:
+      - '*/*'
+      description: get User By Id
+      parameters:
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get By Id
+      tags:
+      - User
+    put:
+      consumes:
+      - '*/*'
+      description: Update User Request
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update User
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Update User
+      tags:
+      - User
+swagger: "2.0"
