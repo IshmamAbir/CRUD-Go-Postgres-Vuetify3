@@ -25,7 +25,7 @@ func (repo *PsqlCompanyRepository) DeleteCompany(company *models.Company) error 
 // GetAllCompany implements company.Repository
 func (repo *PsqlCompanyRepository) GetAllCompanies() ([]models.Company, error) {
 	var companies []models.Company
-	repo.DB.Find(&companies)
+	repo.DB.Preload("Users").Find(&companies)
 	if companies == nil {
 		return nil, errors.New("no company found")
 	}
@@ -35,7 +35,7 @@ func (repo *PsqlCompanyRepository) GetAllCompanies() ([]models.Company, error) {
 // GetCompanyById implements company.Repository
 func (repo *PsqlCompanyRepository) GetCompanyById(id uuid.UUID) (*models.Company, error) {
 	var company models.Company
-	repo.DB.First(&company, id)
+	repo.DB.Preload("User").First(&company, id)
 	if company.Id == uuid.Nil {
 		return nil, errors.New("company not found")
 	}
