@@ -3,7 +3,9 @@ package http
 import (
 	"backend/models"
 	"backend/user"
+	"backend/util"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -33,7 +35,11 @@ func NewUserHandler(router *mux.Router, uu user.Usecase) {
 // Get All Users method
 func (h *userHandler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	users, err := h.UserUsecase.GetAllUsers()
+	queryValues := r.URL.Query()
+	queryParams := util.QueryParams(queryValues)
+	fmt.Println(queryParams)
+
+	users, err := h.UserUsecase.GetAllUsers(queryParams)
 	if err != nil {
 		log.Panic(err)
 		json.NewEncoder(w).Encode(err.Error())

@@ -25,8 +25,8 @@ func (cu *CompanyUsecase) DeleteCompany(id uuid.UUID) error {
 }
 
 // GetAllCompany implements company.Usecase
-func (cu *CompanyUsecase) GetAllCompanies() ([]models.Company, error) {
-	companies, err := cu.companyRepo.GetAllCompanies()
+func (cu *CompanyUsecase) GetAllCompanies(queryParams map[string]interface{}) ([]models.Company, error) {
+	companies, err := cu.companyRepo.GetAllCompanies(queryParams)
 	if err != nil {
 		return nil, err
 	}

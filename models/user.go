@@ -8,6 +8,6 @@ type User struct {
 	FirstName string    `json:"firstName" gorm:"not null;type:varchar(100)"`
 	LastName  string    `json:"lastName" gorm:"not null;type:varchar(100)"`
 	Email     string    `json:"email" gorm:"not null;type:varchar(100)"`
-	CompanyId uuid.UUID `json:"company_id"`
+	CompanyId uuid.UUID `json:"companyId"`
 	Company   Company
 }

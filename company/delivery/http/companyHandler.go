@@ -3,7 +3,9 @@ package http
 import (
 	"backend/company"
 	"backend/models"
+	"backend/util"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -34,7 +36,10 @@ func NewCompanyHandler(router *mux.Router, cu company.Usecase) {
 // Get all companies
 func (h CompanyHandler) GetAllCompanies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	companies, err := h.companyUsecase.GetAllCompanies()
+	queryValues := r.URL.Query()
+	queryParams := util.QueryParams(queryValues)
+	fmt.Println(queryParams)
+	companies, err := h.companyUsecase.GetAllCompanies(queryParams)
 	if err != nil {
 		log.Panic(err)
 		json.NewEncoder(w).Encode(err.Error())

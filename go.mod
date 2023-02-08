@@ -9,13 +9,6 @@ require (
 )
 
 require (
-	github.com/eclipse/paho.mqtt.golang v1.4.2 // indirect
-	github.com/gorilla/websocket v1.4.2 // indirect
-	golang.org/x/net v0.1.0 // indirect
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-)
-
-require (
 	github.com/google/uuid v1.3.0
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.13.0 // indirect

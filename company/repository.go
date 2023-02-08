@@ -8,7 +8,7 @@ import (
 
 // repository interface
 type Repository interface {
-	GetAllCompanies() ([]models.Company, error)
+	GetAllCompanies(queryParams map[string]interface{}) ([]models.Company, error)
 
 	GetCompanyById(id uuid.UUID) (*models.Company, error)
 

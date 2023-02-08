@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"strconv"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -24,9 +25,45 @@ func NewPsqlUserRepository(db *gorm.DB) user.Repository {
 }
 
 // GetAllUsers implements user.Repository
-func (repo *psqlUserRepository) GetAllUsers() ([]models.User, error) {
+func (repo *psqlUserRepository) GetAllUsers(queryParams map[string]interface{}) ([]models.User, error) {
+	orderByColumns := ""
+	tx := repo.DB
+
+	if queryParams["order"] != nil {
+		orderByColumns = queryParams["order"].(string)
+		delete(queryParams, "order")
+	}
+	if queryParams["limit"] != nil {
+		limit := queryParams["limit"].(string)
+		limitSize, err := strconv.Atoi(limit)
+		if err != nil {
+			return nil, errors.New("limit error")
+		}
+		tx = tx.Limit(limitSize)
+		delete(queryParams, "limit")
+	}
+	if queryParams["offset"] != nil {
+		offset := queryParams["offset"].(string)
+		offsetSize, err := strconv.Atoi(offset)
+		if err != nil {
+			return nil, errors.New("limit error")
+		}
+		tx = tx.Offset(offsetSize)
+		delete(queryParams, "offset")
+	}
+	// it will be added when 'created_at' column is introduced to table
+	// if queryParams["start"] != nil && queryParams["end"] != nil {
+	// 	tx = tx.Where("created_at BETWEEN ? AND ?", queryParams["start"], queryParams["end"])
+	// 	delete(queryParams, "start")
+	// 	delete(queryParams, "end")
+	// }
+	for k, v := range queryParams {
+		tx = tx.Where(k+"=?", v.(string))
+	}
+
 	var users []models.User
-	repo.DB.Model(&models.User{}).Preload("Company").Find(&users)
+	// repo.DB.Model(&models.User{}).Preload("Company").Find(&users)
+	tx.Order(orderByColumns).Model(&models.User{}).Preload("Company").Find(&users)
 	if users == nil {
 		return nil, errors.New("no user found")
 	}

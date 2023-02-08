@@ -8,7 +8,7 @@ import (
 
 // repository interface
 type Repository interface {
-	GetAllUsers() ([]models.User, error)
+	GetAllUsers(queryParams map[string]interface{}) ([]models.User, error)
 
 	GetUserById(id uuid.UUID) (*models.User, error)
 

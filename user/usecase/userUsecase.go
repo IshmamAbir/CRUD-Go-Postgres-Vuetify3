@@ -18,8 +18,8 @@ func NewUserUsecase(ur user.Repository) user.Usecase {
 }
 
 // GetAllUsers implements user.Usecase
-func (uu *userUsecase) GetAllUsers() ([]models.User, error) {
-	users, err := uu.userRepo.GetAllUsers()
+func (uu *userUsecase) GetAllUsers(queryParams map[string]interface{}) ([]models.User, error) {
+	users, err := uu.userRepo.GetAllUsers(queryParams)
 	if err != nil {
 		return nil, err
 	}
