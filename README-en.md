@@ -60,7 +60,7 @@ http://localhost:9080/swagger/index.html
 ## Running Process
 1. download swag for go
 ```
-go get -u github.com/swaggo/http-swagger
+go get github.com/swaggo/swag/cmd/swag
 ```
 
 1. run swag in the root directory of the project
