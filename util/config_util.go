@@ -18,12 +18,15 @@ func ReadConfig(path string) (map[string]string, error) {
 	sc := bufio.NewScanner(file)
 	for sc.Scan() {
 		line := sc.Text()
-		keyVal := strings.Split(line, ":=")
-		if len(keyVal) != 2 {
-			return nil, errors.New("error reading config file.check key vlaue assigner ':='")
-		}
-		if keyVal[0] != "" && keyVal[1] != "" {
-			configMap[keyVal[0]] = keyVal[1]
+		// Treat lines starting with [#] as comments
+		if line[0:1] != "#" {
+			keyVal := strings.Split(line, ":=")
+			if len(keyVal) != 2 {
+				return nil, errors.New("error reading config file.check key vlaue assigner ':='")
+			}
+			if keyVal[0] != "" && keyVal[1] != "" {
+				configMap[keyVal[0]] = keyVal[1]
+			}
 		}
 	}
 	return configMap, nil
