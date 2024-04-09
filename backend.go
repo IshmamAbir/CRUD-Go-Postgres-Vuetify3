@@ -89,7 +89,7 @@ func dbInit() {
 }
 
 // It’s kinda important to make sure that the Entities in concern exist as tables in the connected database.
-// This particular method ensures that a table named products is created on the connected database.
+// This particular method ensures that a table named User is created on the connected database.
 // func dbMigrate() {
 // 	db.AutoMigrate(User{})
 // 	log.Println("Database Migration Completed...")
